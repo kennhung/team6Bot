@@ -19,6 +19,11 @@ const server = http.createServer((request, response) => {
 
     request.on('end', function () {
         console.log('Body: ' + body);
+        if (body.length === 0) {
+            response.writeHead(400);
+            response.end('ERROR 400');
+            return
+        }
 
         jszhuyin.oncandidateschange = function (c) {
             response.writeHead(200, { 'Content-Type': 'text/plain' });
