@@ -8,6 +8,7 @@ autopep8 = "*"
 
 [packages]
 requests = "*"
+python-telegram-bot = "*"
 
 [requires]
 python_version = "3.7"
