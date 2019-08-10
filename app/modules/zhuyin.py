@@ -10,6 +10,7 @@ reply_sentences = [
 
 wrong_count = {}
 
+
 def zhuyin_to_words(zhuyin):
     r = requests.post('http://zhuyin.yubin.tw', json={'text': zhuyin})
     words = r.json()['text']
@@ -28,16 +29,21 @@ def engkey_to_words(engkey):
     return zhuyin_to_words(engkey_to_zhuyin(engkey))
 
 
-def handle_tg_message(message, update):
+def checkVaildInput(input):
+    return True
     # TODO: add vaild check
-    if True:
+
+
+def handle_tg_message(message, update):
+    if checkVaildInput(message):
         correct_sentence = engkey_to_words(message)
         if len(correct_sentence) != 0:
-            
+
             if update.message.from_user.id not in wrong_count:
                 wrong_count[update.message.from_user.id] = 0
             wrong_count[update.message.from_user.id] += 1
-            print('{}: {}'.format(update.message.from_user.id, wrong_count[update.message.from_user.id]))
+            print('{}: {}'.format(update.message.from_user.id,
+                                  wrong_count[update.message.from_user.id]))
 
             reply = random.choice(reply_sentences).format(correct_sentence)
             update.message.reply_text(reply)
